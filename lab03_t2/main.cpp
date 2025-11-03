@@ -72,14 +72,14 @@ public:
 
     // Push element on top; throw if overflow
     void Push(const T &value) {
-        if (top_ >= N) 
+        if (top_ == N) 
             throw StackOverflow{};
         data_[top_++] = value;
     }
 
     // Optionally support move-push for efficiency
     void Push(T &&value) {
-        if (top_ >= N) 
+        if (top_ == N) 
             throw StackOverflow{};
         data_[top_++] = std::move(value);
     }
@@ -99,11 +99,11 @@ public:
     size_t Capacity() const { return N; }
 
     // Bounds-checked index access (throws if idx >= size)
-    T& operator[](size_t idx) {
+    T &operator[](size_t idx) {
         if (idx >= top_) throw StackOutOfRange(idx, top_);
         return data_[idx];
     }
-    const T& operator[](size_t idx) const {
+    const T &operator[](size_t idx) const {
         if (idx >= top_) throw StackOutOfRange(idx, top_);
         return data_[idx];
     }
@@ -126,7 +126,7 @@ int main() {
 
         cout << "\nInteger Stack has: " << stack.GetSize() << " elements";
 
-        // stack.Push(4);   // An exception should be thrown here
+        //stack.Push(4);   // An exception should be thrown here
 
         cout << "\nInteger Stack pops: " << stack.Pop();
         cout << "\nInteger Stack pops: " << stack.Pop();
@@ -134,8 +134,10 @@ int main() {
         cout << "\nInteger Stack has: " << stack.GetSize() << " elements";
 
         stack.Pop();
-        // stack.Pop();    // An exception should be thrown here
-        stack.Push(2);
+        stack.Pop();
+        //stack.Pop();
+        //stack.Pop();    // An exception should be thrown here
+        //stack.Push(2);
 
         //int i = stack[3];  // An exception should be thrown here
         //(void)i;           // silence unused variable warning
@@ -148,6 +150,8 @@ int main() {
         ptStack.Push(Vector(2, 2));
         ptStack.Push(Vector(3, 3));
         ptStack.Push(Vector(4, 4));
+        //ptStack.Push(Vector(4, 4));
+        //ptStack.Push(Vector(4, 4));
 
         cout << "\nVector Stack pops: ";
         // Use the Vector class method for outputting an element
